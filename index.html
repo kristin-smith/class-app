@@ -8,13 +8,24 @@
         <link rel="stylesheet" href="">
     </head>
 	<body>
-      	
-
-<script type="text/jsx">
-
-    var element = React.createElement(SignIn);
-    ReactDOM.render(element, document.body);
+      	<div class="container">
+            <div id="main"></div>
+            <div id="signIn"></div>
+            <div id="signUp"></div>
+        </div>
+        
+<script src="https://www.gstatic.com/firebasejs/live/3.0/firebase.js"></script>
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyBbcLcZcnATIIRDvedOd0jiPm1ZrVQFYkc",
+    authDomain: "class-app-ea3fd.firebaseapp.com",
+    databaseURL: "https://class-app-ea3fd.firebaseio.com",
+    storageBucket: "class-app-ea3fd.appspot.com",
+  };
+  firebase.initializeApp(config);
 </script>
-
+    
+    <script src="build/bundle.js"></script>
 	</body>
 </html>

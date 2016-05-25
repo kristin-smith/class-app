@@ -2,10 +2,7 @@ var path = require('path');
 var webpack = require('webpack');
 
 module.exports = {
-	entry: [
-		'./node_modules/webpack/hot/only-dev-server.js',
-		'./js/index.js'
-	],
+	entry: ['./js/index.js'],
 	output: { 
 		path: __dirname + '/build', 
 		filename: 'bundle.js'
