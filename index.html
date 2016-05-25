@@ -7,9 +7,30 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="">
         <style type="text/css"></style>
+        <script type="text/javascript" src="https://fb.me/react-0.14.3.js"></script>
+        <script src="https://fb.me/react-dom-0.14.3.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/react/0.13.3/JSXTransformer.js"></script>
     </head>
 	<body>
-      	<div id="main"></div>
-      	<script src="bundle.js"></script>
+      	
+
+<script type="text/jsx">
+var SignIn = React.createClass({
+	render : function(){
+		return <div>
+            <form>
+            <label name="username" title="username">Username: </label>
+            <input type="text"></input>
+            <label name="password" title="password">Password: </label>
+            <input type="text"></input>
+            <input type="submit" name="submit"></input>
+            </form>
+		</div>
+	}
+});
+    var element = React.createElement(SignIn);
+    ReactDOM.render(element, document.body);
+</script>
+
 	</body>
 </html>
