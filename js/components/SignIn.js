@@ -7,10 +7,16 @@ var React = require('react');
 
 var SignIn = React.createClass({
 	render : function(){
-		return (
-
-		)
+		return <div>
+            <form>
+            <label name="username" title="username">Username: </label>
+            <input type="text"></input>
+            <label name="password" title="password">Password: </label>
+            <input type="text"></input>
+            <input type="submit" name="submit"></input>
+            </form>
+		</div>
 	}
 });
 
-// module.exports = SignIn;
+module.exports = SignIn;

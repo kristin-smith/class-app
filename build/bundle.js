@@ -135,7 +135,7 @@
 /* 2 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/Users/lindsayhartfiel/Desktop/Dev Practice/React/classroom_app/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/Users/lindsayhartfiel/Desktop/Dev Practice/React/classroom_app/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
+	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/Users/duuser/Documents/develop/class-app/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/Users/duuser/Documents/develop/class-app/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
 
 	'use strict';
 
@@ -143,6 +143,13 @@
 	var ReactDOM = __webpack_require__(160);
 
 	var ReactRouter = __webpack_require__(161);
+
+	//Import components
+	var SignIn = __webpack_require__(222);
+	var SignUp = __webpack_require__(223);
+
+	//Require the stylesheets on each .js file
+	//require("../scss/style.scss");
 
 	var App = React.createClass({
 		displayName: 'App',
@@ -152,9 +159,10 @@
 		}
 	});
 
+	React.createElement('script', { src: 'build/bundle.js' });
 	ReactDOM.render(React.createElement(App, null), document.getElementById('main'));
 
-	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/Users/lindsayhartfiel/Desktop/Dev Practice/React/classroom_app/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot not apply hot update to " + "index.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
+	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/Users/duuser/Documents/develop/class-app/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot not apply hot update to " + "index.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
 
 /***/ },
 /* 3 */
@@ -321,6 +329,9 @@
 	var queueIndex = -1;
 
 	function cleanUpNextTick() {
+	    if (!draining || !currentQueue) {
+	        return;
+	    }
 	    draining = false;
 	    if (currentQueue.length) {
 	        queue = currentQueue.concat(queue);
@@ -20464,6 +20475,7 @@
 	 * - **             Consumes (greedy) all characters up to the next character
 	 *                  in the pattern, or to the end of the URL if there is none
 	 *
+	 *  The function calls callback(error, matched) when finished.
 	 * The return value is an object with the following properties:
 	 *
 	 * - remainingPathname
@@ -23266,13 +23278,17 @@
 	  // Only try to match the path if the route actually has a pattern, and if
 	  // we're not just searching for potential nested absolute paths.
 	  if (remainingPathname !== null && pattern) {
-	    var matched = (0, _PatternUtils.matchPattern)(pattern, remainingPathname);
-	    if (matched) {
-	      remainingPathname = matched.remainingPathname;
-	      paramNames = [].concat(paramNames, matched.paramNames);
-	      paramValues = [].concat(paramValues, matched.paramValues);
-	    } else {
-	      remainingPathname = null;
+	    try {
+	      var matched = (0, _PatternUtils.matchPattern)(pattern, remainingPathname);
+	      if (matched) {
+	        remainingPathname = matched.remainingPathname;
+	        paramNames = [].concat(paramNames, matched.paramNames);
+	        paramValues = [].concat(paramValues, matched.paramValues);
+	      } else {
+	        remainingPathname = null;
+	      }
+	    } catch (error) {
+	      callback(error);
 	    }
 
 	    // By assumption, pattern is non-empty here, which is the prerequisite for
@@ -23908,13 +23924,15 @@
 	};
 
 	module.exports = function hoistNonReactStatics(targetComponent, sourceComponent) {
-	    var keys = Object.getOwnPropertyNames(sourceComponent);
-	    for (var i=0; i<keys.length; ++i) {
-	        if (!REACT_STATICS[keys[i]] && !KNOWN_STATICS[keys[i]]) {
-	            try {
-	                targetComponent[keys[i]] = sourceComponent[keys[i]];
-	            } catch (error) {
+	    if (typeof sourceComponent !== 'string') { // don't hoist over string (html) components
+	        var keys = Object.getOwnPropertyNames(sourceComponent);
+	        for (var i=0; i<keys.length; ++i) {
+	            if (!REACT_STATICS[keys[i]] && !KNOWN_STATICS[keys[i]]) {
+	                try {
+	                    targetComponent[keys[i]] = sourceComponent[keys[i]];
+	                } catch (error) {
 
+	                }
 	            }
 	        }
 	    }
@@ -25260,6 +25278,60 @@
 
 	exports.default = (0, _createRouterHistory2.default)(_createHashHistory2.default);
 	module.exports = exports['default'];
+
+/***/ },
+/* 222 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/Users/duuser/Documents/develop/class-app/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/Users/duuser/Documents/develop/class-app/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
+
+	"use strict";
+
+	/* 
+	  SignIn
+	  This will let us make <SignIn/>
+	*/
+
+	var React = __webpack_require__(3);
+
+	var SignIn = React.createClass({
+	  displayName: "SignIn",
+
+	  render: function render() {
+	    return React.createElement("div", null, React.createElement("form", null, React.createElement("label", { name: "username", title: "username" }, "Username: "), React.createElement("input", { type: "text" }), React.createElement("label", { name: "password", title: "password" }, "Password: "), React.createElement("input", { type: "text" }), React.createElement("input", { type: "submit", name: "submit" })));
+	  }
+	});
+
+	module.exports = SignIn;
+
+	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/Users/duuser/Documents/develop/class-app/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot not apply hot update to " + "SignIn.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
+
+/***/ },
+/* 223 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/Users/duuser/Documents/develop/class-app/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/Users/duuser/Documents/develop/class-app/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
+
+	'use strict';
+
+	/* 
+	  SignUp
+	  This will let us make <SignUp/>
+	*/
+
+	var React = __webpack_require__(3);
+
+	var SignUp = React.createClass({
+		displayName: 'SignUp',
+
+		render: function render() {
+			return React.createElement('h2', null, 'Hey! This is the signup component');
+		}
+	});
+
+	// module.exports = SignUp;
+
+	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/Users/duuser/Documents/develop/class-app/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot not apply hot update to " + "SignUp.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
 
 /***/ }
 /******/ ]);
